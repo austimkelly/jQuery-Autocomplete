@@ -91,7 +91,8 @@
                 showNoSuggestionNotice: false,
                 noSuggestionNotice: 'No results',
                 orientation: 'bottom',
-                forceFixPosition: false
+                forceFixPosition: false,
+                altImage: null
             };
 
         // Shared variables:
@@ -376,6 +377,9 @@
             var that = this;
 
             // If suggestions are hidden and user presses arrow down, display suggestions:
+      
+
+
             if (!that.disabled && !that.visible && e.which === keys.DOWN && that.currentValue) {
                 that.suggest();
                 return;
@@ -668,7 +672,21 @@
                     html += formatGroup(suggestion, value, i);
                 }
 
-                html += '<div class="' + className + '" data-index="' + i + '">' + formatResult(suggestion, value) + '</div>';
+                html += '<div class="' + className + '" data-index="' + i + '">';
+                if (suggestion.icon != null){
+                	var imgExtras = '';
+                	if (options.altImage != null){
+                		imgExtras += ' onerror="this.src=\'' + options.altImage + '\';';
+                	}
+                	imgExtras += '" height=40px width=40px style="vertical-align:middle;"';
+                	html += '<img src="' + suggestion.icon + '"' + imgExtras + '/>';  
+                	html += '<div id="texts" style="height:50px; line-height:50px; display:inline; white-space:nowrap;">';
+        		}
+        		html += ' ' + formatResult(suggestion, value);
+    			if (suggestion.icon != null){
+    				html += '</div>'
+    			}
+                html += '</div>';
             });
 
             this.adjustContainerWidth();
